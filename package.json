@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/uzyn/umbo-istanbul/issues"
   },
-  "homepage": "https://github.com/uzyn/umbo-istanbul#readme"
+  "homepage": "https://github.com/uzyn/umbo-istanbul#readme",
+  "dependencies": {
+    "commander": "^2.8.1"
+  }
 }
