@@ -8,13 +8,13 @@ $ umbo-istanbul --help
 
   Options:
 
-    -h, --help                 output usage information
-    -V, --version              output the version number
-    -b, --badge <badge id>     Umbo badge id.
-    -k, --key <private key>    Umbo private key.
-    -u, --url <URL to Umbo>    Umbos URL, defaults to http://umbo.zynesis.com/:badge
-    -j, --json-summary <path>  Path to json-summary reported by istanbul. Defaults to coverage/coverage-summary.json
-    -t, --type <type>          Coverage type: lines, statements, functions or branches. Defaults to lines.
+    -h, --help                  output usage information
+    -V, --version               output the version number
+    -b, --badge <badge id>      Umbo badge id
+    -t, --token <private token> Umbo private token
+    -u, --url <URL to Umbo>     Umbos URL, defaults to http://umbo.zynesis.com/:badge
+    -j, --json-summary <path>   Path to json-summary reported by istanbul. Defaults to coverage/coverage-summary.json
+    -t, --type <type>           Coverage type: lines, statements, functions or branches. Defaults to lines.
 
   Usage example:
 
@@ -23,6 +23,6 @@ $ umbo-istanbul --help
 
     Parse json-summary report and send to Umbo
     $ export UMBO_BADGE=YOUR_UMBO_BADGE_ID;
-    $ export UMBO_KEY=PRIVATE_KEY;
+    $ export UMBO_TOKEN=PRIVATE_TOKEN;
     $ umbo-istanbul
 ```

@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 var program = require('commander');
 var path = require('path');
+var request = require('request');
 
 program
   .version('0.0.1')
-  .option('-b, --badge <badge id>', 'Umbo badge id.')
-  .option('-k, --key <private key>', 'Umbo private key.')
-  .option('-u, --url <URL to Umbo>', 'Umbo\s URL, defaults to http://umbo.zynesis.com/:badge', 'http://umbo.zynesis.com/:badge')
+  .option('-b, --badge <badge id>', 'Umbo badge id')
+  .option('-t, --token <private token>', 'Umbo private token')
+  .option('-u, --url <URL to Umbo>', 'Umbo\s URL, defaults to http://umbo.zynesis.com/:badge')
   .option('-j, --json-summary <path>', 'Path to json-summary reported by istanbul. Defaults to coverage/coverage-summary.json', 'coverage/coverage-summary.json')
   .option('-t, --type <type>', 'Coverage type: lines, statements, functions or branches. Defaults to lines.', /^(lines|statements|functions|branches)$/i, 'lines');
 
@@ -18,7 +19,7 @@ program.on('--help', function() {
   console.log();
   console.log('    Parse json-summary report and send to Umbo');
   console.log('    $ export UMBO_BADGE=YOUR_UMBO_BADGE_ID;');
-  console.log('    $ export UMBO_KEY=PRIVATE_KEY; ');
+  console.log('    $ export UMBO_TOKEN=PRIVATE_TOKEN; ');
   console.log('    $ umbo-istanbul');
 });
 
@@ -37,11 +38,29 @@ try {
   return process.exit(1);
 }
 
-console.log('Coverage percentage: ' + summary.total[program.type.toLowerCase()].pct + '%');
+var value = summary.total[program.type.toLowerCase()].pct;
+console.log('Coverage percentage: ' + value + '%');
 
 var badgeID = program.badge || process.env.UMBO_BADGE;
-var key = program.key || process.env.UMBO_KEY;
-if (!key || !badgeID) {
-  console.error('Missing Umbo badge ID or key.');
+var token = program.token || process.env.UMBO_TOKEN;
+var url = program.url || process.env.UMBO_URL || 'http://umbo.zynesis.com/:badge';
+if (!token || !badgeID) {
+  console.error('Missing Umbo badge ID or token.');
   return process.exit(1);
 }
+
+var url = url.replace(/:badge/g, badgeID);
+request.post({
+  url: url,
+  form: {
+    token: token,
+    value: value
+  }
+}, function (err, httpResponse, body) {
+  if (err) {
+    console.log('Error');
+    console.log(body);
+    return;
+  }
+  return console.log('Pushed to umbo successfully.');
+});

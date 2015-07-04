@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/uzyn/umbo-istanbul#readme",
   "dependencies": {
-    "commander": "^2.8.1"
+    "commander": "^2.8.1",
+    "request": "^2.58.0"
   }
 }
